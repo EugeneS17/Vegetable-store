@@ -1,0 +1,63 @@
+.emptyCart {
+  text-align: center;
+  padding: var(--mantine-spacing-xl) 0;
+  color: var(--mantine-color-dimmed);
+}
+
+.cartItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+}
+
+.itemInfo {
+  display: flex;
+  gap: var(--mantine-spacing-md);
+  align-items: center;
+}
+
+.itemName {
+  font-weight: 600;
+}
+
+.itemPrice {
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-dimmed);
+}
+
+.itemActions {
+  display: flex;
+  gap: var(--mantine-spacing-md);
+  align-items: center;
+}
+
+.quantity {
+  font-weight: 600;
+  min-width: 30px;
+  text-align: center;
+}
+
+.itemTotal {
+  min-width: 80px;
+  text-align: right;
+  font-weight: 700;
+}
+
+.totalRow {
+  margin-top: var(--mantine-spacing-md);
+}
+
+.totalLabel {
+  font-size: var(--mantine-font-size-xl);
+  font-weight: 700;
+}
+
+.totalPrice {
+  font-size: var(--mantine-font-size-xl);
+  font-weight: 700;
+  color: var(--mantine-color-green-text);
+}
+
+.checkoutButton {
+  margin-top: var(--mantine-spacing-md);
+}

@@ -1,0 +1,34 @@
+.card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.productName {
+  font-weight: 600;
+  font-size: var(--mantine-font-size-lg);
+}
+
+.price {
+  font-size: var(--mantine-font-size-xl);
+  font-weight: 700;
+  color: var(--mantine-color-green-text);
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.quantityGroup {
+  justify-content: center;
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.quantityInput {
+  width: 80px;
+}
+
+.quantityInputField {
+  text-align: center;
+  font-weight: 600;
+}
