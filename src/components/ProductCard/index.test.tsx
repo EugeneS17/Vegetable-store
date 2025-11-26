@@ -1,13 +1,10 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { MantineProvider } from "@mantine/core";
+import { renderWithProviders } from "../../test/test-utils";
 import { ProductCard } from ".";
 import type { Product } from "../../types";
-
-const renderWithMantine = (component: React.ReactElement) => {
-  return render(<MantineProvider>{component}</MantineProvider>);
-};
 
 describe("ProductCard", () => {
   const mockProduct: Product = {
@@ -19,24 +16,30 @@ describe("ProductCard", () => {
   };
 
   it("renders product information correctly", () => {
-    renderWithMantine(
-      <ProductCard product={mockProduct} onAddToCart={() => {}} />
+    renderWithProviders(
+      <MantineProvider>
+        <ProductCard product={mockProduct} />
+      </MantineProvider>
     );
 
     expect(screen.getByText("Broccoli - 1 Kg")).toBeInTheDocument();
     expect(screen.getByText("₹120")).toBeInTheDocument();
   });
 
-  it("calls onAddToCart with correct product and quantity", async () => {
+  it("adds product to cart when Add to Cart is clicked", async () => {
     const user = userEvent.setup();
-    const onAddToCart = vi.fn();
-    renderWithMantine(
-      <ProductCard product={mockProduct} onAddToCart={onAddToCart} />
+    const { store } = renderWithProviders(
+      <MantineProvider>
+        <ProductCard product={mockProduct} />
+      </MantineProvider>
     );
 
     const addToCartButton = screen.getByText("Add to Cart");
     await user.click(addToCartButton);
 
-    expect(onAddToCart).toHaveBeenCalledWith(mockProduct, 1);
+    const state = store.getState();
+    expect(state.cart.items).toHaveLength(1);
+    expect(state.cart.items[0].product.id).toBe(mockProduct.id);
+    expect(state.cart.items[0].quantity).toBe(1);
   });
 });

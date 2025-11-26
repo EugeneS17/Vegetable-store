@@ -9,24 +9,18 @@ import {
   ActionIcon,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
-import type { CartItem } from "../../types";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { removeFromCart, updateQuantity } from "../../store/cartSlice";
 import styles from "./index.module.css";
 
 interface CartProps {
   opened: boolean;
   onClose: () => void;
-  cartItems: CartItem[];
-  onRemoveItem: (productId: number) => void;
-  onUpdateQuantity: (productId: number, quantity: number) => void;
 }
 
-export function Cart({
-  opened,
-  onClose,
-  cartItems,
-  onRemoveItem,
-  onUpdateQuantity,
-}: CartProps) {
+export function Cart({ opened, onClose }: CartProps) {
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
@@ -72,9 +66,11 @@ export function Cart({
                       size="xs"
                       variant="outline"
                       onClick={() =>
-                        onUpdateQuantity(
-                          item.product.id,
-                          Math.max(1, item.quantity - 1)
+                        dispatch(
+                          updateQuantity({
+                            productId: item.product.id,
+                            quantity: Math.max(1, item.quantity - 1),
+                          })
                         )
                       }
                     >
@@ -85,7 +81,12 @@ export function Cart({
                       size="xs"
                       variant="outline"
                       onClick={() =>
-                        onUpdateQuantity(item.product.id, item.quantity + 1)
+                        dispatch(
+                          updateQuantity({
+                            productId: item.product.id,
+                            quantity: item.quantity + 1,
+                          })
+                        )
                       }
                     >
                       +
@@ -99,7 +100,7 @@ export function Cart({
                   <ActionIcon
                     color="red"
                     variant="subtle"
-                    onClick={() => onRemoveItem(item.product.id)}
+                    onClick={() => dispatch(removeFromCart(item.product.id))}
                   >
                     <IconTrash size={18} />
                   </ActionIcon>

@@ -1,11 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
+import { renderWithProviders } from "./test/test-utils";
 import App from "./App";
-
-const renderWithMantine = (component: React.ReactElement) => {
-  return render(<MantineProvider>{component}</MantineProvider>);
-};
 
 const mockProducts = [
   {
@@ -21,16 +18,28 @@ describe("App", () => {
   beforeEach(() => {
     global.fetch = vi.fn(() =>
       Promise.resolve({
+        ok: true,
         json: () => Promise.resolve(mockProducts),
       } as Response)
     ) as unknown as typeof fetch;
   });
 
   it("loads and displays products from API", async () => {
-    renderWithMantine(<App />);
+    renderWithProviders(
+      <MantineProvider>
+        <App />
+      </MantineProvider>
+    );
 
-    await waitFor(() => {
-      expect(screen.getByText("Broccoli - 1 Kg")).toBeInTheDocument();
-    });
+    expect(screen.getByText("Loading products...")).toBeInTheDocument();
+
+    await waitFor(
+      () => {
+        expect(screen.getByText("Broccoli - 1 Kg")).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
+
+    expect(global.fetch).toHaveBeenCalled();
   });
 });
