@@ -1,1 +1,1 @@
-# [(2.3.2) Test task "Vegetable store"/Sosnovskiy_Eugene](https://eugenes17.github.io/Vegetable-store/)
+# [(4.2.2) Test task "Working with Asynchrony in Redux: Thunk"/Sosnovskiy_Eugene](https://eugenes17.github.io/Vegetable-store/)

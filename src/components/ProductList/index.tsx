@@ -6,10 +6,9 @@ import styles from './index.module.css';
 interface ProductListProps {
   products: Product[];
   loading: boolean;
-  onAddToCart: (product: Product, quantity: number) => void;
 }
 
-export function ProductList({ products, loading, onAddToCart }: ProductListProps) {
+export function ProductList({ products, loading }: ProductListProps) {
   if (loading) {
     return (
       <Container className={styles.loaderContainer}>
@@ -32,7 +31,6 @@ export function ProductList({ products, loading, onAddToCart }: ProductListProps
           <ProductCard
             key={product.id}
             product={product}
-            onAddToCart={onAddToCart}
           />
         ))}
       </SimpleGrid>

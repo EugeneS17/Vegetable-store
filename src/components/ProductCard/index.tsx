@@ -9,15 +9,17 @@ import {
   NumberInput,
 } from "@mantine/core";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
+import { useAppDispatch } from "../../store/hooks";
+import { addToCart } from "../../store/cartSlice";
 import type { Product } from "../../types";
 import styles from "./index.module.css";
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product, quantity: number) => void;
 }
 
-export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
+  const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -30,7 +32,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   };
 
   const handleAddToCart = () => {
-    onAddToCart(product, quantity);
+    dispatch(addToCart({ product, quantity }));
     setQuantity(1);
   };
 
